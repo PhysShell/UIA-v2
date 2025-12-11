@@ -12,6 +12,10 @@ jobs:
         run: |
           git remote add upstream https://github.com/Descolada/UIA-v2.git || true
           git fetch upstream
+      - name: Configure git identity
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
       - name: Rebase fork main on top of upstream/main
         run: |
           git checkout main
