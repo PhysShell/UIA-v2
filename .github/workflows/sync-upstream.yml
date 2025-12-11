@@ -12,8 +12,15 @@ jobs:
         run: |
           git remote add upstream https://github.com/Descolada/UIA-v2.git || true
           git fetch upstream
-      - name: Fast-forward default branch (main)
+      - name: Rebase fork main on top of upstream/main
         run: |
           git checkout main
-          git merge --ff-only upstream/main || exit 0
-          git push origin main || true
+          git fetch upstream
+          # no changes detected
+          if git diff --quiet main upstream/main; then
+            echo "Already up to date with upstream/main"
+            exit 0
+          fi
+
+          git rebase upstream/main
+          git push origin main --force-with-lease
